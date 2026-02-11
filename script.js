@@ -28,7 +28,14 @@ function makeNoButtonRunAway(e) {
 
     // Make Yes button bigger
     noBtnClicks++;
-    yesBtn.style.transform = `scale(${1 + (noBtnClicks * 1.5)})`;
+
+    // Use smaller multiplier on mobile to prevent overflow
+    const isMobile = window.innerWidth <= 480;
+    const multiplier = isMobile ? 0.3 : 1.5;
+    const maxScale = isMobile ? 2.5 : 4; // Limit max scale
+
+    const newScale = Math.min(1 + (noBtnClicks * multiplier), maxScale);
+    yesBtn.style.transform = `scale(${newScale})`;
 
     // Change text
     const noTexts = ['Are you sure?', 'Really?', 'Think again!', 'Please? 🥺', 'Pretty please? 💕'];
